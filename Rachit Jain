@@ -2,7 +2,7 @@ import java.util.*;
 public class LongestCompoundWord {
 
 	public static void main(String[] args) throws FileNotFoundException {
-		File f = new File("words for problem.txt");
+		File f = new File("Input_01.txt");
 		Trie t = new Trie();
 		LinkedList<Pair<String>> a = new LinkedList<Pair<String>>();
 		HashSet<String> compoundWords = new HashSet<String>();
