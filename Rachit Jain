@@ -1,0 +1,53 @@
+import java.util.*;
+public class LongestCompoundWord {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		File f = new File("words for problem.txt");
+		Trie t = new Trie();
+		LinkedList<Pair<String>> a = new LinkedList<Pair<String>>();
+		HashSet<String> compoundWords = new HashSet<String>();
+		Scanner s = new Scanner(f);
+		String word;				
+		List<Integer> sufIndices;	
+		while (s.hasNext()) {
+			word = s.next();		
+			sufIndices = t.getSuffixesStartIndices(word);
+			for (int i : sufIndices) {
+				if (i >= word.length())		
+					break;					
+				a.add(new Pair<String>(word, word.substring(i)));
+			}
+			t.insert(word);
+		}
+		Pair<String> p;				
+		int maxLength = 0;			
+		int sec_maxLength = 0;			
+		String longest = "";		
+		String sec_longest = "";	
+		while (!a.isEmpty()) {
+			p = a.removeFirst();
+			word = p.second();
+			sufIndices = t.getSuffixesStartIndices(word);
+			if (sufIndices.isEmpty()) {
+				continue;
+			}
+			for (int i : sufIndices) {
+				if (i > word.length()) { 
+					break;
+				}
+				if (i == word.length()) {
+					if (p.first().length() > maxLength) {
+						sec_longest = longest;
+						maxLength = p.first().length();
+						longest = p.first();
+					}
+					compoundWords.add(p.first());			
+				} else {
+					a.add(new Pair<String>(p.first(), word.substring(i)));
+				}
+			}
+		}
+		System.out.println("Longest Compound Word: " + longest);
+		System.out.println("Second Longest Compound Word: " + sec_longest);
+	}
+}
